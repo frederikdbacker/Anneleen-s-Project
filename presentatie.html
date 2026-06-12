@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Germaine — projectpresentatie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --inkt:#1B2A2A; --klei:#C25A2B; --amber:#E8A33D; --room:#F4EDE1;
+    --inkt-soft:#2C403F; --room-dim:#E6DCC9; --muted:#6B6256;
+    --display:'Fraunces',Georgia,serif; --text:'Inter',system-ui,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--text);background:var(--inkt);color:var(--inkt);overflow:hidden}
+  .deck{position:fixed;inset:0}
+  .slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
+    padding:7vh 9vw;background:var(--room);animation:fade .5s ease}
+  .slide.active{display:flex}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .tag{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--klei);font-weight:700;margin-bottom:1.4rem}
+  h1{font-family:var(--display);font-weight:900;line-height:1.02;letter-spacing:-.01em}
+  h2{font-family:var(--display);font-weight:600;font-size:clamp(1.8rem,4.2vw,3rem);line-height:1.08;margin-bottom:1.4rem;letter-spacing:-.01em}
+  p,li{font-size:clamp(1rem,1.65vw,1.35rem);line-height:1.5;color:var(--inkt-soft)}
+  .lead{font-size:clamp(1.2rem,2.3vw,1.7rem);color:var(--inkt)}
+  ul{list-style:none;display:flex;flex-direction:column;gap:.85rem;margin-top:.6rem}
+  li{padding-left:1.6rem;position:relative}
+  li::before{content:"";position:absolute;left:0;top:.65em;width:.55rem;height:.55rem;background:var(--amber);border-radius:2px}
+  strong{color:var(--inkt);font-weight:700}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:2.2rem 3rem;margin-top:.4rem}
+  .card{background:#fff;border-radius:14px;padding:1.4rem 1.5rem;box-shadow:0 1px 0 var(--room-dim)}
+  .card h3{font-family:var(--display);font-weight:600;font-size:1.15rem;margin-bottom:.5rem;color:var(--inkt)}
+  .card p{font-size:1rem}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1.3rem;margin-top:.8rem}
+  .kpi{background:var(--inkt);color:var(--room);border-radius:14px;padding:1.4rem 1.2rem}
+  .kpi .n{font-family:var(--display);font-weight:900;font-size:clamp(1.6rem,3.4vw,2.5rem);color:var(--amber);line-height:1}
+  .kpi .l{font-size:.92rem;margin-top:.5rem;color:var(--room-dim)}
+  .swatches{display:flex;gap:1rem;margin-top:1.4rem;flex-wrap:wrap}
+  .sw{width:120px;height:84px;border-radius:12px;display:flex;align-items:flex-end;padding:.5rem;font-size:.72rem;font-weight:600;color:#fff}
+  .note{margin-top:1.6rem;font-size:.95rem;color:var(--muted);font-style:italic}
+  .pill{display:inline-block;background:var(--room-dim);color:var(--inkt);border-radius:999px;padding:.3rem .9rem;font-size:.85rem;font-weight:600;margin:.2rem .35rem .2rem 0}
+  /* dark/title variants */
+  .slide.dark{background:var(--inkt);color:var(--room)}
+  .slide.dark h1,.slide.dark h2{color:var(--room)}
+  .slide.dark p,.slide.dark li{color:var(--room-dim)}
+  .slide.dark strong{color:#fff}
+  .slide.dark .tag{color:var(--amber)}
+  .slide.dark li::before{background:var(--amber)}
+  .titlewrap h1{font-size:clamp(3.2rem,11vw,8rem);color:var(--room)}
+  .titlewrap .sub{font-size:clamp(1.1rem,2.4vw,1.7rem);color:var(--amber);margin-top:1rem;font-weight:500}
+  .titlewrap .meta{margin-top:2.2rem;color:var(--room-dim);font-size:1rem;letter-spacing:.02em}
+  .dot24{display:inline-block;width:.9em;height:.9em;border-radius:50%;background:linear-gradient(90deg,var(--amber) 50%,var(--inkt-soft) 50%);vertical-align:-.05em;margin-left:.1em;border:2px solid var(--amber)}
+  /* nav */
+  .bar{position:fixed;bottom:0;left:0;right:0;height:54px;display:flex;align-items:center;justify-content:space-between;
+    padding:0 18px;background:rgba(27,42,42,.92);color:var(--room);font-size:.85rem;z-index:10}
+  .bar .brand{font-family:var(--display);font-weight:700;letter-spacing:.04em;color:var(--room)}
+  .dots{display:flex;gap:7px;align-items:center}
+  .dots button{width:9px;height:9px;border-radius:50%;border:none;background:#54635f;cursor:pointer;padding:0}
+  .dots button.on{background:var(--amber);transform:scale(1.25)}
+  .ctrls{display:flex;gap:8px;align-items:center}
+  .ctrls button{background:transparent;border:1px solid #54635f;color:var(--room);border-radius:8px;width:34px;height:32px;font-size:1.1rem;cursor:pointer}
+  .ctrls button:hover{border-color:var(--amber);color:var(--amber)}
+  .count{min-width:54px;text-align:center;color:var(--room-dim)}
+  .hint{position:fixed;top:14px;right:18px;font-size:.75rem;color:var(--muted);z-index:10}
+  @media(max-width:760px){.cols,.kpis{grid-template-columns:1fr 1fr}.slide{padding:6vh 7vw 80px}}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 1 TITLE -->
+  <section class="slide dark active titlewrap">
+    <div class="tag">Projectpresentatie · juni 2026</div>
+    <h1>Germaine<span class="dot24"></span></h1>
+    <div class="sub">Verse maaltijden uit de buurt — van 's ochtends vroeg tot 's avonds laat.</div>
+    <div class="meta">Ballaarstraat 2, 2018 Antwerpen · een onderneming van Anneleen De Bruycker<br>De naam Germaine: vernoemd, persoonlijk, lokaal.</div>
+  </section>
+
+  <!-- 2 BELOFTE -->
+  <section class="slide">
+    <div class="tag">Het idee in één zin</div>
+    <h2>Het buurtpunt op de hoek waar je van vroeg tot laat een vers, lokaal en gezond gerecht meeneemt — zichtbaar bereid in onze open keuken.</h2>
+    <div>
+      <span class="pill">Vers</span><span class="pill">Zichtbaar bereid</span><span class="pill">Ruime uren</span><span class="pill">Lokaal</span><span class="pill">Lekker</span>
+    </div>
+    <p class="note">Drie woorden dragen het merk: vers · zichtbaar · ruim open.</p>
+  </section>
+
+  <!-- 3 WAAROM / MARKT -->
+  <section class="slide">
+    <div class="tag">Waarom — de kans in de buurt</div>
+    <h2>Wat de buurt nog niet heeft, vullen wij in.</h2>
+    <ul>
+      <li>De pokébowl-markt is <strong>verzadigd</strong> — daar stappen we bewust niet in.</li>
+      <li>Er is <strong>geen enkel publiek, onbemand verspunt met ruime uren</strong> in de wijk: ochtend, avond en zondag liggen open.</li>
+      <li>Premium-lokaal afhaaleten buiten de hype is <strong>dun bezet</strong> — daar positioneren we ons.</li>
+      <li>Naast buur <strong>De Vis Hall</strong>, tegenover Finch: een hoek met bestaande versfood-traffic.</li>
+    </ul>
+  </section>
+
+  <!-- 4 CONCEPT -->
+  <section class="slide dark">
+    <div class="tag">Het concept</div>
+    <h2>Een zichtbare verse keuken, gekoppeld aan automaten die nooit sluiten.</h2>
+    <ul>
+      <li>Alles wordt <strong>vers bereid en gekoeld</strong> verkocht — geen diepvries, geen opwarmen in de machine.</li>
+      <li><strong>Warme gerechten</strong> warm je thuis op; <strong>koude gerechten</strong> eet je meteen.</li>
+      <li>De zichtbare bereiding poetst het "automaten"-stigma weg: <strong>vers + zichtbaar = vertrouwen</strong>.</li>
+      <li>Verkoopvenster van ±5 bemande uren naar <strong>±15 uur per dag</strong>.</li>
+    </ul>
+  </section>
+
+  <!-- 5 KANALEN -->
+  <section class="slide">
+    <div class="tag">Drie manieren om te kopen</div>
+    <h2>Eén keuken, drie kanalen.</h2>
+    <div class="cols">
+      <div class="card"><h3>1 · Voorbestelling + lockers</h3><p>Vooraf bestellen, voor jou klaargemaakt, ophalen uit een gekoelde locker. Geeft <strong>vraagzicht vooraf</strong> en bijna <strong>geen verspilling</strong>.</p></div>
+      <div class="card"><h3>2 · Toonbank (10–15u)</h3><p>Spontaan afhalen tijdens de bemande uren, met de open keuken als blikvanger.</p></div>
+      <div class="card"><h3>3 · Automaten (±07–22u)</h3><p>De kern: ochtend, avond, nacht-rand en zondag — wanneer de rest dicht is.</p></div>
+      <div class="card"><h3>+ Later: kantoren in de buurt</h3><p>Dezelfde keuken bevoorraadt extra koelkasten bij kantoren/praktijken (groeibeen).</p></div>
+    </div>
+  </section>
+
+  <!-- 6 MENU -->
+  <section class="slide">
+    <div class="tag">Wat er op het menu staat</div>
+    <h2>Strak, roterend, herkenbaar.</h2>
+    <ul>
+      <li><strong>8 vaste gerechten + 4–6 wekelijkse wissels</strong> — genoeg variatie om terug te komen, weinig genoeg om te voorspellen.</li>
+      <li>Breed premium-gezond met een <strong>mediterrane toets</strong>; ±30–40% vegetarisch/vegan.</li>
+      <li>Warm (thuis op te warmen) én koud; ontbijt, lunch, avond, snack.</li>
+      <li>Eén betaalbare <strong>DAILY ≤ €7,90</strong> naast de signature-gerechten.</li>
+      <li><strong>Maaltijdcheques</strong> (Edenred/Monizze/Pluxee) vanaf dag één.</li>
+    </ul>
+  </section>
+
+  <!-- 7 PRIJS / POSITIE -->
+  <section class="slide dark">
+    <div class="tag">Prijs & positionering</div>
+    <h2>Premium, maar toegankelijk.</h2>
+    <ul>
+      <li>Signature-bowls <strong>€12,50–13,90</strong>; warme schotels <strong>€13,50–14,50</strong>.</li>
+      <li>Bewust <strong>net onder</strong> Bunch (lunchbox €15,50) en Vers-Zuid (€17,25–17,80).</li>
+      <li><strong>Boven</strong> mainstream-lunch, op niveau premium-poké — verantwoord door verse, lokale kwaliteit en het gemak van ruime uren.</li>
+      <li>Automaatprijs ±€1 lager dan de toonbank: de automaat als slim én toegankelijk.</li>
+    </ul>
+  </section>
+
+  <!-- 8 PAND -->
+  <section class="slide">
+    <div class="tag">Het pand · ~65–70 m²</div>
+    <h2>Van rauw naar bereid naar verpakt naar klant — in één logische lijn.</h2>
+    <div class="cols">
+      <div class="card"><h3>Zichtbare front-end · 25 m²</h3><p>Live koken, koeltoog, het visitekaartje van de zaak.</p></div>
+      <div class="card"><h3>Automatenzone · 20–25 m²</h3><p>Automatenwand + afhaallockers, toegankelijk van 7 tot 22u.</p></div>
+      <div class="card"><h3>Back-end · ~20 m²</h3><p>Koeling, opslag, sealen/verpakken, voorbereiding (achter de schermen).</p></div>
+      <div class="card"><h3>Nutsvoorzieningen</h3><p>Wateraanvoer aanwezig; elektra/koeling/afvoer nog te bevestigen.</p></div>
+    </div>
+  </section>
+
+  <!-- 9 LOOK -->
+  <section class="slide dark">
+    <div class="tag">Hoe het eruitziet · "Nacht &amp; Amber"</div>
+    <h2>Warm, premium, en het claimt de lange dag — vroeg tot laat.</h2>
+    <div class="swatches">
+      <div class="sw" style="background:#1B2A2A">Inkt-petrol</div>
+      <div class="sw" style="background:#C25A2B">Klei</div>
+      <div class="sw" style="background:#E8A33D;color:#1B2A2A">Amber</div>
+      <div class="sw" style="background:#F4EDE1;color:#1B2A2A">Room</div>
+    </div>
+    <ul style="margin-top:1.6rem">
+      <li>Typografie: <strong>Fraunces</strong> (ambachtelijk) + <strong>Inter</strong> (helder).</li>
+      <li>Logo: woordmerk + een <strong>dag-cirkel</strong> (ochtend/avond-segment → knipoog naar de lange openingsdag).</li>
+      <li>Verpakking: room-etiket met dunne kleurband per dagdeel — snel scanbaar.</li>
+    </ul>
+  </section>
+
+  <!-- 10 VEILIG -->
+  <section class="slide">
+    <div class="tag">Veilig &amp; in orde</div>
+    <h2>Voedselveiligheid is van bij de start uitgewerkt.</h2>
+    <ul>
+      <li><strong>FAVV-toelating</strong> (middelhoog risico) + <strong>versoepeld HACCP</strong> via sectorgids G-023.</li>
+      <li>Volledige <strong>etikettering</strong> (allergenen, "te gebruiken tot", bewaaradvies) — sjabloon klaar.</li>
+      <li><strong>Koudeketen ≤7°C</strong>, ook in de automaat en de lockers, met temperatuurbewaking.</li>
+      <li>Start als <strong>micro</strong> (≤4 personen) → vrijstellingen; <strong>FAVV-Smiley</strong> als ambitie.</li>
+    </ul>
+    <p class="note">Richtinggevend — definitief te bevestigen bij FAVV/AFSCA en een jurist voedingsrecht.</p>
+  </section>
+
+  <!-- 11 TECHNIEK -->
+  <section class="slide">
+    <div class="tag">De techniek</div>
+    <h2>Hardware kopen, niet bouwen.</h2>
+    <ul>
+      <li><strong>Gekoelde automaten</strong> (geen oven/diepvries nodig → eenvoudiger en goedkoper).</li>
+      <li><strong>Afhaallockers</strong> voor de voorbestellingen, met code/QR.</li>
+      <li><strong>Bestel- en betaalsysteem</strong> (web + app), met live voorraad en maaltijdcheques.</li>
+      <li>Connectiviteit: voorraad- en temperatuuralarm op afstand.</li>
+    </ul>
+  </section>
+
+  <!-- 12 CIJFERS -->
+  <section class="slide dark">
+    <div class="tag">De cijfers — indicatief (ramingen)</div>
+    <h2>Een gezond basismodel, zelfs voorzichtig gerekend.</h2>
+    <div class="kpis">
+      <div class="kpi"><div class="n">±€445k</div><div class="l">Investering incl. vastgoed</div></div>
+      <div class="kpi"><div class="n">±57</div><div class="l">Maaltijden/dag break-even (doel 62,5)</div></div>
+      <div class="kpi"><div class="n">€12</div><div class="l">Gemiddeld ticket (voorzichtig)</div></div>
+      <div class="kpi"><div class="n">5,7 j</div><div class="l">Terugverdientijd opstart</div></div>
+    </div>
+    <p class="note">Cijfers zijn ramingen — hard te maken zodra het budget vastligt en de echte inkoopprijzen (Module 07) bekend zijn. Het voorbestel-kanaal (mik op 35–40%) duwt verspilling omlaag en marge omhoog.</p>
+  </section>
+
+  <!-- 13 GROEI / IDEEEN -->
+  <section class="slide">
+    <div class="tag">Ideeën die op tafel liggen</div>
+    <h2>Ruimte om te groeien — bewust gefaseerd.</h2>
+    <div class="cols">
+      <div class="card"><h3>☕ Koffie + bakery</h3><p>De buurt mist takeaway-koffie. Makkelijke winst, pakt het ochtendmoment.</p></div>
+      <div class="card"><h3>🪑 Eet-in?</h3><p>Een paar tafeltjes kan — maar verschuift richting horeca (sanitair/vergunning). Bewuste latere stap.</p></div>
+      <div class="card"><h3>🧒 Kindermenu</h3><p>Lichte uitbreiding op het bestaande kader.</p></div>
+      <div class="card"><h3>🍼 Babyvoeding</h3><p>Strikt gereguleerd — eerst een haalbaarheidscheck vóór we beslissen.</p></div>
+    </div>
+  </section>
+
+  <!-- 14 WAT NU -->
+  <section class="slide dark">
+    <div class="tag">Wat we nu samen vastleggen</div>
+    <h2>Een paar keuzes ontgrendelen de rest.</h2>
+    <ul>
+      <li><strong>Budget &amp; financiering</strong> — de sleutel voor het financieel plan.</li>
+      <li><strong>Naam Germaine</strong> — domein + merk laten checken (er bestaat al een <em>Cremerie Germaine</em>).</li>
+      <li><strong>Concept-keuzes</strong> bevestigen: lockers, koffie/eet-in, openingsdatum.</li>
+      <li>Daarna: leveranciers vastleggen (echte prijzen) en de opening voorbereiden.</li>
+    </ul>
+    <p class="note">Streefopening: september 2026 (indicatief) — beslismoment "doorgaan?" half juli.</p>
+  </section>
+
+  <!-- 15 SLOT -->
+  <section class="slide dark titlewrap">
+    <div class="tag">Samen verder</div>
+    <h1 style="font-size:clamp(2.6rem,8vw,6rem)">Germaine<span class="dot24"></span></h1>
+    <div class="sub">Vers, zichtbaar, ruim open.</div>
+    <div class="meta">Klaar om van plan naar opening te gaan.</div>
+  </section>
+
+</div>
+
+<div class="hint">← → om te navigeren</div>
+<div class="bar">
+  <div class="brand">GERMAINE</div>
+  <div class="dots" id="dots"></div>
+  <div class="ctrls">
+    <button id="prev" aria-label="vorige">‹</button>
+    <span class="count" id="count"></span>
+    <button id="next" aria-label="volgende">›</button>
+  </div>
+</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  const dotsWrap=document.getElementById('dots');
+  const count=document.getElementById('count');
+  let i=0;
+  slides.forEach((_,n)=>{const b=document.createElement('button');b.onclick=()=>go(n);dotsWrap.appendChild(b);});
+  const dots=[...dotsWrap.children];
+  function go(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    dots.forEach((d,k)=>d.classList.toggle('on',k===i));
+    count.textContent=(i+1)+' / '+slides.length;
+  }
+  document.getElementById('prev').onclick=()=>go(i-1);
+  document.getElementById('next').onclick=()=>go(i+1);
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown')go(i+1);
+    if(e.key==='ArrowLeft'||e.key==='PageUp')go(i-1);
+    if(e.key==='Home')go(0); if(e.key==='End')go(slides.length-1);
+  });
+  go(0);
+</script>
+</body>
+</html>
