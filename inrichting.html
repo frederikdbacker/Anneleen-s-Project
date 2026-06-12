@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Passe-Vite — Inrichting & flow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--inkt:#1B2A2A;--klei:#C25A2B;--amber:#E8A33D;--room:#F4EDE1;--inkt-soft:#2C403F;--room-dim:#E6DCC9;--muted:#6B6256;
+    --display:'Fraunces',Georgia,serif;--text:'Inter',system-ui,Arial,sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--text);background:var(--room);color:var(--inkt);line-height:1.55}
+  header.top{position:sticky;top:0;z-index:20;background:rgba(27,42,42,.97);color:var(--room);display:flex;align-items:center;justify-content:space-between;padding:.7rem 1.4rem}
+  .top .brand{font-family:var(--display);font-weight:900;font-size:1.2rem;display:flex;align-items:center;gap:.5rem}
+  .top .brand .d{width:.8em;height:.8em;border-radius:50%;background:linear-gradient(90deg,var(--amber) 50%,#46564f 50%);border:2px solid var(--amber)}
+  .top a{color:var(--amber);text-decoration:none;font-size:.85rem;font-weight:600;border:1px solid #54635f;border-radius:8px;padding:.35rem .8rem}
+  main{max-width:1060px;margin:0 auto;padding:1.8rem 1.4rem 4rem}
+  .hero{background:var(--inkt);color:var(--room);border-radius:18px;padding:1.8rem 2rem}
+  .hero .tag{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);font-weight:700}
+  .hero h1{font-family:var(--display);font-weight:900;font-size:clamp(1.8rem,4.5vw,2.8rem);line-height:1.05;margin:.5rem 0}
+  .hero p{color:var(--room-dim);max-width:65ch}
+  .hero .meta{margin-top:.9rem;font-size:.82rem;color:var(--amber)}
+  section{margin-top:2.4rem}
+  h2{font-family:var(--display);font-weight:600;font-size:1.5rem;margin-bottom:.2rem}
+  .sub{color:var(--muted);font-size:.92rem;margin-bottom:1rem}
+  .zones{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem}
+  .z{background:#fff;border-radius:14px;padding:1.1rem 1.2rem;box-shadow:0 1px 0 var(--room-dim);border-top:5px solid var(--amber)}
+  .z.b{border-top-color:var(--klei)} .z.c{border-top-color:var(--inkt-soft)}
+  .z h3{font-family:var(--display);font-weight:600;font-size:1.1rem}
+  .z .m{font-size:.78rem;color:var(--klei);font-weight:700;margin:.2rem 0 .5rem}
+  .z p{font-size:.86rem;color:var(--inkt-soft)}
+  .plan{background:var(--inkt);color:var(--room-dim);border-radius:14px;padding:1.2rem;overflow-x:auto}
+  .plan pre{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.72rem;line-height:1.35;white-space:pre;color:#D9E2DC}
+  table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 0 var(--room-dim);font-size:.86rem}
+  th,td{padding:.6rem .8rem;text-align:left;border-bottom:1px solid var(--room-dim)}
+  th{background:var(--inkt);color:var(--room);font-weight:600}
+  ul{list-style:none;display:flex;flex-direction:column;gap:.5rem;margin-top:.4rem}
+  li{padding-left:1.4rem;position:relative;font-size:.9rem;color:var(--inkt-soft)}
+  li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;background:var(--amber);border-radius:2px}
+  .note{font-size:.85rem;color:var(--muted);font-style:italic;margin-top:1rem}
+  .pill{display:inline-block;background:var(--room-dim);border-radius:999px;padding:.2rem .7rem;font-size:.78rem;font-weight:600;margin:.15rem .3rem .15rem 0}
+  footer{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--room-dim);font-size:.8rem;color:var(--muted)}
+  @media(max-width:760px){.zones{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="d"></span>Passe-Vite</div>
+  <a href="presentatie.html">← Terug naar presentatie</a>
+</header>
+<main>
+  <div class="hero">
+    <div class="tag">Inrichting &amp; flow · Module 10</div>
+    <h1>Drie ruimtes, drie functies — in één rechte lijn.</h1>
+    <p>Het hoekpand verdeelt zich natuurlijk in drie zones die precies de drie functies van de zaak dekken. De twee ingangen — een automatische schuifdeur en een afsluitbare scharnierdeur — zijn de sleutel: de automatenzone blijft 's avonds open terwijl de keuken veilig dicht is.</p>
+    <div class="meta">In samenwerking met interieurarchitect Lien (Pantaloni) · voorlopige maten — wacht op opmeting</div>
+  </div>
+
+  <section>
+    <h2>De drie zones</h2>
+    <div class="sub">Front → keuken → back: klant en product kruisen elkaar nergens.</div>
+    <div class="zones">
+      <div class="z"><h3>Zone A — Automatenzone</h3><div class="m">±20–25 m² · 24/7 via schuifdeur</div><p>Het onbemande verkooppunt: automatenwand + gekoelde afhaallockers + ruime decompressiezone. Het enige deel dat 's avonds publiek open is. Geen keuken, geen kasgeld.</p></div>
+      <div class="z b"><h3>Zone B — Open keuken</h3><div class="m">±30 m² · zichtbare etalage</div><p>De USP: Anneleen bereidt hier zichtbaar vers, met koeltogen en bemande toonbank langs de raamzijde. Het "theater" dat het automaten-stigma wegpoetst.</p></div>
+      <div class="z c"><h3>Zone C — Back-end</h3><div class="m">ruim 25 m² · afgesloten</div><p>Alles wat niet gezien hoeft: ontvangst, opslag/koelcel, vuile prep, afwas, sealen/etiketteren, gekoelde eindopslag, afval. Het hart van de cook-chill-operatie.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Voorlopige plattegrond</h2>
+    <div class="sub">Schematisch, van bovenaf — werkbasis op voorlopige maten.</div>
+    <div class="plan"><pre>          ←  LANGE LOZANASTRAAT (zichtgevel)  →
+ ┌──────────────────────────────────────────────────┐
+ │  [ZONE A — AUTOMATEN]        [ZONE B — KEUKEN]     │
+ │  ±20–25 m², 24/7             ±30 m², zichtbaar     │
+ │  ┌────────────┐              ┌─────────────────┐   │
+ │  │ 3× AUTOMAAT│  decompr.    │ KOELTOOG +      │   │
+ │  │ display→raam│  ≥1,5 m     │ BEMANDE TOONBANK│   │
+ │  ├────────────┤              ├─────────────────┤   │
+ │  │ LOCKERWAND │  ▓ A→B-grens │ COMBI │ INDUCTIE │   │
+ │  │ (gekoeld)  │  glaswand+slot│ SNELKOELER      │   │
+ │  └────────────┘              │ werktafels+handwas│ │
+ │  ╔══════════╗                └────────┬────────┘   │
+ │  ║SCHUIFDEUR║   ╔═════════╗           │ DEUR        │
+ │  ║(tijdsklok)║  ║SCHARNIER║           ▼             │
+ │  ╚══════════╝   ║ (slot)  ║   [ZONE C — BACK-END]   │
+ │                 ╚═════════╝   ruim 25 m², afgesloten│
+ └────────[HOEK = etalage-brandpunt]──────────────────┘
+
+ ZONE C:  Ontvangst → Opslag/koelcel → Vuile prep
+   → Afwas  +  Sealen/etiketteren  → Gekoelde eindopslag
+   → (uitgifte naar B/A) → Afval bij uitgang</pre></div>
+  </section>
+
+  <section>
+    <h2>Het 24/7-model op twee deuren</h2>
+    <div class="sub">Hoe de zaak onbemand veilig draait.</div>
+    <table>
+      <tr><th></th><th>Bemande uren (10–15u)</th><th>Onbemand (avond / nacht / zondag)</th></tr>
+      <tr><td><b>Schuifdeur (tijdsklok)</b></td><td>Open</td><td><b>Open</b> (07–22u) → enkel zone A</td></tr>
+      <tr><td><b>Scharnierdeur (afsluitbaar)</b></td><td>Open</td><td><b>Op slot</b></td></tr>
+      <tr><td><b>Grens zone A → B</b></td><td>Open</td><td><b>Dicht</b> — glazen schuifwand met slot</td></tr>
+    </table>
+    <ul>
+      <li>Geen kasgeld 's nachts — alle betalingen elektronisch (kaart/maaltijdcheque).</li>
+      <li>Camera + temperatuuralarm met auto-lockout (geen verkoop bij koelstoring).</li>
+      <li>Verlichte zone A als baken op de donkere hoek — veiligheid én marketing.</li>
+      <li>Glazen afsluitwand houdt de keuken 's avonds zichtbaar als "theater", maar veilig dicht.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>De hoek verkoopt</h2>
+    <div class="sub">Twee zichtgevels, leesbaar uit beide looprichtingen en vanaf Finch.</div>
+    <p style="font-size:.92rem;color:var(--inkt-soft)">De open keuken en de automatenwand staan langs de raamzijden, zodat de hoek béide functies toont: "altijd vers bereid" én "ruime uren uit de automaat". De zichtlijn van de stoep naar Anneleen-aan-het-werk wordt bewust vrijgehouden.</p>
+    <div style="margin-top:.8rem">
+      <span class="pill">Zichtbare keuken langs het raam</span><span class="pill">Automaten met display naar de hoek</span><span class="pill">Lockerwand zichtbaar</span><span class="pill">Gevel-baken, verlicht</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Nog te beslissen / op te meten</h2>
+    <ul>
+      <li><b>Exacte opmeting</b> (m² per zone, plafondhoogte, doorgangen, raam-/gevelposities, nutsaansluitingen) — vóór er definitief getekend wordt.</li>
+      <li><b>Afsluiting zone A→B</b>: glazen schuifwand (voorkeur), rolluik of hek?</li>
+      <li><b>Buitenafhaal-luik</b> voor lockers in de gevel? (écht 24/7 afhalen zonder binnen te komen)</li>
+      <li><b>"Lokkersysteem"</b> verduidelijken: afhaallockers, een blikvanger, of een bestelkiosk?</li>
+      <li><b>Netverzwaring 380V</b> nodig voor combi + snelkoeler + inductie? (potentieel kritiek pad)</li>
+      <li><b>Zitplaatsen + koffie</b> ter plaatse? (raakt het FAVV-statuut — bewuste keuze)</li>
+    </ul>
+    <p class="note">Maten en posities zijn voorlopig (werkbasis, juni 2026). De definitieve, schaalvaste plattegrond tekent interieurarchitect Lien zodra de opmeting binnen is. Volledige uitwerking: VERS_10 in de projectmap.</p>
+  </section>
+
+  <footer>Passe-Vite · Inrichting &amp; flow (Module 10) · samengevat uit VERS_10 — stand 12 juni 2026.</footer>
+</main>
+</body>
+</html>
